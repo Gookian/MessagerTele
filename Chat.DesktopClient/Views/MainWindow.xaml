@@ -7,7 +7,10 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="{Binding Title}" Height="550" Width="850">
+        Title="{Binding Title}" Height="550" Width="850" WindowStartupLocation="CenterScreen" Icon="/Resources/faq_chat_questions_messages_message_icon_147463.ico">
+    <Window.Effect>
+        <DropShadowEffect/>
+    </Window.Effect>
     <Grid Background="#FFDADADA">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -18,6 +21,9 @@
             <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Grid.Column="1" Padding="10 0 10 0">
+            <Border.Background>
+                <ImageBrush Stretch="UniformToFill" TileMode="Tile" ImageSource="/Resources/Background.png"/>
+            </Border.Background>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="ViewMessages"/>
             </ScrollViewer>
@@ -40,39 +46,14 @@
                 <DropShadowEffect BlurRadius="10" Color="LightGray" ShadowDepth="0"/>
             </Border.Effect>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <Border Width="210" Padding="5" Margin="0 5 0 5" HorizontalAlignment="Left" CornerRadius="20">
-                        <StackPanel Orientation="Horizontal">
-                            <Border Width="40" Height="40" Padding="18" Background="LightGray" CornerRadius="20"></Border>
-                            <TextBlock Text="Иван" FontSize="16" Padding="10 0 0 0" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Border Width="210" Padding="5" Margin="0 5 0 5" HorizontalAlignment="Left" CornerRadius="20">
-                        <StackPanel Orientation="Horizontal">
-                            <Border Width="40" Height="40" Padding="18" Background="LightGray" CornerRadius="20"></Border>
-                            <TextBlock Text="Вася" FontSize="16" Padding="10 0 0 0" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
+                <StackPanel x:Name="ViewUsers"/>
             </ScrollViewer>
         </Border>
         <Border Grid.Row="1" Grid.Column="0" Padding="10 15" Background="#444">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" Color="LightGray" ShadowDepth="0"/>
             </Border.Effect>
-            <StackPanel>
-                <Border Width="210" Padding="5" Margin="0 0 0 10" HorizontalAlignment="Left" CornerRadius="20">
-                    <StackPanel Orientation="Horizontal">
-                        <Border Width="40" Height="40" Padding="18" Background="LightGray" CornerRadius="20"></Border>
-                        <TextBlock Text="Иван" FontSize="16" Padding="10 0 0 0" VerticalAlignment="Center" Foreground="White"></TextBlock>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
+            <StackPanel x:Name="ViewUser"/>
         </Border>
-        <!--<StackPanel VerticalAlignment="Center">
-            <Label Height="300" Width="500" Content="{Binding Output, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
-            <TextBox Height="50" Width="500" Text="{Binding Message}"></TextBox>
-            <Button Height="50" Width="500" Content="Send Message" Command="{Binding SendMessageCommand}"></Button>
-        </StackPanel>-->
     </Grid>
 </Window>

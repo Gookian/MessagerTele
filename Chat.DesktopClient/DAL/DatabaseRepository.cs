@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chat.DesktopClient.DAL
 {
-    public class DatabaseMessage
+    public class DatabaseRepository
     {
         private static ChatContext db = new ChatContext();
 
@@ -12,9 +12,14 @@ namespace Chat.DesktopClient.DAL
             return db.Messages;
         }
 
-        public static void Add(Message message)
+        public static DbSet<User> GetAllUsers()
         {
-            db.Add(message);
+            return db.Users;
+        }
+
+        public static void Add<T>(T element)
+        {
+            db.Add(element);
             db.SaveChanges();
         }
     }
