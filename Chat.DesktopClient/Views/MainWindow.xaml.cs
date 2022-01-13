@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Windows;
     using Chat.DesktopClient.DAL;
+    using Chat.DesktopClient.Data;
     using Core;
 
     /// <summary>
@@ -14,7 +15,9 @@
         public MainWindow()
         {
             InitializeComponent();
-            UIElements.ViewTarget = ViewMessages;
+            UIManager.ViewTargetMessages = ViewMessages;
+            UIManager.ViewTargetUsers = ViewUsers;
+            UIManager.ViewTargetUser = ViewUser;
 
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
@@ -24,7 +27,7 @@
         {
             List<Message> messages = new List<Message>();
 
-            foreach (Message message in DatabaseMessage.GetAllMessages())
+            foreach (Message message in DatabaseRepository.GetAllMessages())
             {
                 messages.Add(message);
             }
@@ -33,7 +36,14 @@
 
             foreach (Message message in messages)
             {
-                UIElements.CreateMessageView(message);
+                UIManager.CreateMessageView(message);
+            }
+
+            foreach (User user in DatabaseRepository.GetAllUsers())
+            {
+                UIManager.CreateUserView(user);
+                if (SessionRepository.targetUser.Id == user.Id)
+                    UIManager.CreateUserView(user, true);
             }
         }
 

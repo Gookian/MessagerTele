@@ -53,14 +53,6 @@ namespace Chat.Server.Handlers
 
             await SendMessageToAll(message);
             loggerManager.logger.Info($"Сервер отправил сообщения остальным пользователям");
-
-            //Message messageObject = JsonConvert.DeserializeObject<Message>(message);
-
-            //var jsonMessage = JsonConvert.SerializeObject(messageObject);
-            //var bytes = Encoding.UTF8.GetBytes(jsonMessage);
-
-            //Console.WriteLine(jsonMessage);
-            //await SendMessageToAll(message);
         }
     }
 }

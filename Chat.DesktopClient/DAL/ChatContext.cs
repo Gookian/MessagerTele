@@ -5,7 +5,9 @@ namespace Chat.DesktopClient.DAL
 {
     public class ChatContext : DbContext
     {
-        public DbSet<Message> Messages { get; set; } 
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         public ChatContext()
         {

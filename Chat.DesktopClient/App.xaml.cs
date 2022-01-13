@@ -12,7 +12,7 @@ namespace Chat.DesktopClient
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.Resolve<AuthorizationWindow>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

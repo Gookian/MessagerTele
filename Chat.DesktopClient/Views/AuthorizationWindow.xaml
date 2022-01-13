@@ -1,0 +1,59 @@
+﻿<Window x:Class="Chat.DesktopClient.Views.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Chat.DesktopClient.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="350" Width="500" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Icon="/Resources/faq_chat_questions_messages_message_icon_147463.ico">
+    <Window.Effect>
+        <DropShadowEffect/>
+    </Window.Effect>
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Resources/background_chat.jpg" Stretch="Fill" TileMode="Tile"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Button Content="Авторизация" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding AuthorizationCommand}"/>
+        <Button Content="Регистрация" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding RegistrationCommand}" Cursor="Hand"/>
+        <Border Grid.ColumnSpan="2" Padding="15" Margin="20 30 20 15" Background="#FFF" CornerRadius="20">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" Color="LightGray" ShadowDepth="0"/>
+            </Border.Effect>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="2"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.ColumnSpan="2" Background="#FF673AB7" CornerRadius="2"/>
+                    <Label Grid.ColumnSpan="2" Content="Авторизация / Регистрация" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Label Grid.Row="2" Content="Логин" FontSize="16" Padding="0 20 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Label Grid.Row="3" Content="Пароль" FontSize="16" Padding="0 10 0 0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Border Grid.Row="2" Grid.Column="1" Padding="10 0">
+                        <TextBox FontSize="16" VerticalAlignment="Center" Text="{Binding Login}" materialDesign:HintAssist.Hint="Введите Логин" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"></TextBox>
+                    </Border>
+                    <Border Grid.Row="3" Grid.Column="1" Padding="10 0">
+                        <TextBox FontSize="16" VerticalAlignment="Center" Text="{Binding Password}" materialDesign:HintAssist.Hint="Введите Пароль" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Cursor="IBeam"/>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Window>
