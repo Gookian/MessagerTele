@@ -46,12 +46,10 @@ namespace Chat.ConsoleClient
 
             while (true)
             {
-                Console.WriteLine("Ожидаю");
                 var result = await client.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                 Console.WriteLine(Encoding.UTF8.GetString(buffer, 0, result.Count));
                 if (result.MessageType == WebSocketMessageType.Close)
                 {
-                    Console.WriteLine("Close");
                     await client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);
                     break;
                 }
