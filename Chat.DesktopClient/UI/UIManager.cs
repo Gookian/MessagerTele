@@ -14,8 +14,9 @@ namespace Chat.DesktopClient.Views
         public static StackPanel ViewTargetMessages { get; set; }
         public static StackPanel ViewTargetUsers { get; set; }
         public static StackPanel ViewTargetUser { get; set; }
+        public static ScrollViewer ScrollViewChat { get; set; }
 
-    public static void CreateUserView(User user, bool isUser = false)
+        public static void CreateUserView(User user, bool isUser = false)
         {
             ImageBrush imBrush = new ImageBrush()
             {
@@ -111,6 +112,8 @@ namespace Chat.DesktopClient.Views
             border.Child = stackPanel;
 
             ViewTargetMessages.Children.Add(border);
+
+            ScrollViewChat.ScrollToEnd();
         }
     }
 }
