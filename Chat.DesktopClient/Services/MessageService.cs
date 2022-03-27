@@ -7,13 +7,12 @@
     using Core;
     using Chat.DesktopClient.Managers;
     using Newtonsoft.Json;
-    using Chat.DesktopClient.Views;
     using System.Threading.Tasks;
     using Chat.DesktopClient.DAL;
     using Core.Managers;
     using static Core.Managers.LoggerManager;
-    using System.Windows;
     using Chat.DesktopClient.Data;
+    using Chat.DesktopClient.Views;
 
     class MessageService
     {
@@ -28,13 +27,22 @@
             _connectionManager = new ConnectionManager(API);
             _ = _connectionManager.StartConnection();
 
-            loggerManager.logger.Debug($"Пользователь подключился к серверу");
+            Thread.Sleep(100);
+            ReceiveMessage();
 
-            _ = ReciveAsync(_connectionManager.Client);
+            loggerManager.logger.Debug($"Пользователь подключился к серверу");
         }
 
+        public async void ReceiveMessage()
+        {
+            while (this is not null)
+            {
+                Message result = await ReciveAsync();
+                UIManager.CreateMessageView(result);
+            }
+        }
 
-        public async void SendMessage(string message)
+        public void SendMessage(string message)
         {
             Message messageObject = new Message
             {
@@ -45,48 +53,28 @@
                 Time = DateTime.Now
             };
 
-            try
-            {
-                var jsonMessage = JsonConvert.SerializeObject(messageObject);
-                var bytes = Encoding.UTF8.GetBytes(jsonMessage);
-                await _connectionManager.Client.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+            var jsonMessage = JsonConvert.SerializeObject(messageObject);
+            var bytes = Encoding.UTF8.GetBytes(jsonMessage);
+            _connectionManager.Client.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                loggerManager.logger.Debug($"Пользователь [{messageObject.Name}] отправил сообщение на сервер");
+            loggerManager.logger.Debug($"Пользователь [{messageObject.Name}] отправил сообщение на сервер");
 
-                DatabaseRepository.Add(messageObject);
+            DatabaseRepository.Add(messageObject);
 
-                loggerManager.logger.Debug($"Сообщение [{messageObject.Id}] сохранено в базу данных");
-            }
-            catch (ObjectDisposedException e)
-            {
-                MessageBox.Show("Вы не подключены к серверу", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                loggerManager.logger.Error($"Попытка отправки сообщения без подключения к серверу");
-            }
+            loggerManager.logger.Debug($"Сообщение [{messageObject.Id}] сохранено в базу данных");
         }
 
-        private async Task ReciveAsync(ClientWebSocket client)
+        public async Task<Message> ReciveAsync()
         {
-            while (true)
-            {
-                var buffer = new byte[1024 * 4];
+            var buffer = new byte[1024 * 4];
 
-                WebSocketReceiveResult result = null;
+            var result = await _connectionManager.Client.ReceiveAsync(
+                new ArraySegment<byte>(buffer),
+                CancellationToken.None);
 
-                do
-                {
-                    Thread.Sleep(100);
-                    result = await client.ReceiveAsync(buffer, CancellationToken.None);
-                }
-                while (!result.EndOfMessage);
+            var message = Encoding.UTF8.GetString(buffer);
 
-                if (result.MessageType == WebSocketMessageType.Text)
-                {
-                    var message = Encoding.UTF8.GetString(buffer);
-
-                    Message messageObject = JsonConvert.DeserializeObject<Message>(message);
-                    UIManager.CreateMessageView(messageObject);
-                }
-            }
+            return JsonConvert.DeserializeObject<Message>(message);
         }
     }
 }

@@ -24,7 +24,7 @@
             <Border.Background>
                 <ImageBrush Stretch="UniformToFill" TileMode="Tile" ImageSource="/Resources/Background.png"/>
             </Border.Background>
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer x:Name="ScrollViewChat" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="ViewMessages"/>
             </ScrollViewer>
         </Border>

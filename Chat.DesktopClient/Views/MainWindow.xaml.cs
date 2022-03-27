@@ -18,6 +18,7 @@
             UIManager.ViewTargetMessages = ViewMessages;
             UIManager.ViewTargetUsers = ViewUsers;
             UIManager.ViewTargetUser = ViewUser;
+            UIManager.ScrollViewChat = ScrollViewChat;
 
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
